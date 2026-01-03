@@ -1,8 +1,22 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
+import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  await app.listen(process.env.PORT ?? 3000);
+
+  // Create Swagger config
+  const config = new DocumentBuilder()
+    .setTitle('My API')
+    .setDescription('Minimal Swagger setup')
+    .setVersion('1.0')
+    .build();
+
+  const document = SwaggerModule.createDocument(app, config);
+
+  // Setup Swagger
+  SwaggerModule.setup('api-docs', app, document);
+
+  await app.listen(3000);
 }
-bootstrap();
+void bootstrap();
