@@ -16,15 +16,10 @@ async function bootstrap() {
 
   SwaggerModule.setup('openapi', app, document);
 
-  app.use(
-    '/reference',
-    apiReference({ content: document, theme: 'deepSpace' }),
-  );
+  app.use('/docs', apiReference({ content: document, theme: 'deepSpace' }));
 
   await app.listen(process.env.PORT || 3000);
 
-  console.info(
-    `Swagger: http://localhost:${process.env.PORT || 3000}/reference`,
-  );
+  console.info(`Swagger: http://localhost:${process.env.PORT || 3000}/docs`);
 }
 void bootstrap();
