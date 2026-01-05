@@ -12,3 +12,6 @@ generate a controller
 
 `nest generate controller controller-name`
 
+generate a service
+
+`nest generate service service-name`
