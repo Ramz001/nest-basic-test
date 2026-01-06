@@ -1,7 +1,6 @@
 import {
   Controller,
   Get,
-  Query,
   Param,
   Post,
   Body,
@@ -12,15 +11,17 @@ import {
 } from '@nestjs/common';
 import { CreateProfileDto } from './dto/create-profile.dto';
 import type { UpdateProfileDto } from './dto/update-profile.dto';
-
+import { ProfileService } from './profile.service';
 // todo: implement profile controller methods
 // CRUD operations for user profiles + by id with params.
 
 @Controller('profile')
 export class ProfileController {
+  constructor(private profileService: ProfileService) {}
+
   @Get()
-  findAll(@Query('age') age: number) {
-    return [{ age }];
+  findAll() {
+    return this.profileService.findAll();
   }
 
   @Get(':id')
@@ -37,10 +38,7 @@ export class ProfileController {
   }
 
   @Put(':id')
-  updateOne(
-    @Param('id') id: string,
-    @Body() updateProfileDto: UpdateProfileDto,
-  ) {
+  update(@Param('id') id: string, @Body() updateProfileDto: UpdateProfileDto) {
     return {
       ...updateProfileDto,
       id,
