@@ -12,8 +12,6 @@ import {
 import { CreateProfileDto } from './dto/create-profile.dto';
 import type { UpdateProfileDto } from './dto/update-profile.dto';
 import { ProfileService } from './profile.service';
-// todo: implement profile controller methods
-// CRUD operations for user profiles + by id with params.
 
 @Controller('profile')
 export class ProfileController {
@@ -26,28 +24,22 @@ export class ProfileController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return { id };
+    return this.profileService.findOne(+id);
   }
 
   @Post()
   create(@Body() createProfileDto: CreateProfileDto) {
-    return {
-      name: createProfileDto.name,
-      description: createProfileDto.description,
-    };
+    return this.profileService.create(createProfileDto);
   }
 
   @Put(':id')
   update(@Param('id') id: string, @Body() updateProfileDto: UpdateProfileDto) {
-    return {
-      ...updateProfileDto,
-      id,
-    };
+    return this.profileService.update(+id, updateProfileDto);
   }
 
   @Delete(':id')
   @HttpCode(HttpStatus.NO_CONTENT)
   remove(@Param('id') id: string) {
-    return { id };
+    return this.profileService.remove(+id);
   }
 }
