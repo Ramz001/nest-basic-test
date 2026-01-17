@@ -8,10 +8,13 @@ import {
   Delete,
   HttpCode,
   HttpStatus,
+  ParseIntPipe,
+  UsePipes,
 } from '@nestjs/common';
 import { CreateProfileDto } from './dto/create-profile.dto';
-import type { UpdateProfileDto } from './dto/update-profile.dto';
+import { type UpdateProfileDto, ProfileSchema } from './dto/update-profile.dto';
 import { ProfileService } from './profile.service';
+import { ZodValidationPipe } from 'src/common/pipes/zod-validation.pipe';
 
 @Controller('profile')
 export class ProfileController {
@@ -23,8 +26,8 @@ export class ProfileController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.profileService.findOne(+id);
+  findOne(@Param('id', ParseIntPipe) id: number) {
+    return this.profileService.findOne(id);
   }
 
   @Post()
@@ -33,13 +36,14 @@ export class ProfileController {
   }
 
   @Put(':id')
-  update(@Param('id') id: string, @Body() updateProfileDto: UpdateProfileDto) {
-    return this.profileService.update(+id, updateProfileDto);
+  @UsePipes(new ZodValidationPipe(ProfileSchema))
+  update(@Param('id') id: number, @Body() updateProfileDto: UpdateProfileDto) {
+    return this.profileService.update(id, updateProfileDto);
   }
 
   @Delete(':id')
   @HttpCode(HttpStatus.NO_CONTENT)
-  remove(@Param('id') id: string) {
-    return this.profileService.remove(+id);
+  remove(@Param('id', ParseIntPipe) id: number) {
+    return this.profileService.remove(id);
   }
 }
