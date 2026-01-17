@@ -9,7 +9,6 @@ import {
   HttpCode,
   HttpStatus,
   ParseIntPipe,
-  UsePipes,
 } from '@nestjs/common';
 import { CreateProfileDto } from './dto/create-profile.dto';
 import { type UpdateProfileDto, ProfileSchema } from './dto/update-profile.dto';
@@ -36,8 +35,11 @@ export class ProfileController {
   }
 
   @Put(':id')
-  @UsePipes(new ZodValidationPipe(ProfileSchema))
-  update(@Param('id') id: number, @Body() updateProfileDto: UpdateProfileDto) {
+  update(
+    @Param('id', ParseIntPipe) id: number,
+    @Body(new ZodValidationPipe(ProfileSchema))
+    updateProfileDto: UpdateProfileDto,
+  ) {
     return this.profileService.update(id, updateProfileDto);
   }
 

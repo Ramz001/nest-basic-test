@@ -13,7 +13,7 @@ export class ZodValidationPipe implements PipeTransform {
         const formattedErrors = err.issues.map((issue) => ({
           ...issue,
         }));
-
+        console.log('Validation errors:', err);
         throw new BadRequestException({
           statusCode: 400,
           message: 'Validation failed',
