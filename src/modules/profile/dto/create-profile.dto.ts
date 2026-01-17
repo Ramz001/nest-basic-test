@@ -1,4 +1,4 @@
-import { IsNumber, IsString, Length } from 'class-validator';
+import { IsNumber, IsPositive, IsString, Length } from 'class-validator';
 
 export class CreateProfileDto {
   @IsString()
@@ -9,5 +9,6 @@ export class CreateProfileDto {
   description: string;
 
   @IsNumber()
+  @IsPositive()
   age: number;
 }

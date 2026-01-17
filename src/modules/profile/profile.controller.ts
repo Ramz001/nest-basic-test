@@ -9,11 +9,13 @@ import {
   HttpCode,
   HttpStatus,
   ParseIntPipe,
+  UseGuards,
 } from '@nestjs/common';
 import { CreateProfileDto } from './dto/create-profile.dto';
 import { type UpdateProfileDto, ProfileSchema } from './dto/update-profile.dto';
 import { ProfileService } from './profile.service';
 import { ZodValidationPipe } from 'src/common/pipes/zod-validation.pipe';
+import { ProfileGuard } from './profile.guard';
 
 @Controller('profile')
 export class ProfileController {
@@ -25,6 +27,7 @@ export class ProfileController {
   }
 
   @Get(':id')
+  @UseGuards(ProfileGuard)
   findOne(@Param('id', ParseIntPipe) id: number) {
     return this.profileService.findOne(id);
   }

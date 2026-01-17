@@ -15,3 +15,7 @@ generate a controller
 generate a service
 
 `nest generate service service-name`
+
+generate a guard
+
+`nest generate guard guard-name`
